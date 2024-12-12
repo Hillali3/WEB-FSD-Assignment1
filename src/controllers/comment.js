@@ -59,7 +59,7 @@ const updateComment = async (req, res) => {
   try {
     const updatedComment = await Comment.findByIdAndUpdate(
       id,
-      { content, author },
+      { content, sender: author },
       { new: true }
     );
     if (!updatedComment) {
@@ -70,7 +70,6 @@ const updateComment = async (req, res) => {
     res.status(500).json({ message: 'Error updating comment', error });
   }
 };
-
 
 // DELETE comment by ID
 const deleteComment = async (req, res) => {
