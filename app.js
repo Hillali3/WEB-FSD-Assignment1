@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
@@ -15,8 +15,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const commentsRoute = require("./src/routes/comment_route");
+const postsRoute = require("./src/routes/post");
 
 app.use('/comments', commentsRoute);
+app.use("/posts", postsRoute);
 
 app.listen(port, () => {
   console.log(`app listening at http://localhost:${port}`);
