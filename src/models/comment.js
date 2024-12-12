@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema({
     required: true,
     minlength: 1,
   },
-  sender: {
+  author: {
     type: String,
     required: true,
   },

@@ -59,7 +59,7 @@ const updateComment = async (req, res) => {
   try {
     const updatedComment = await Comment.findByIdAndUpdate(
       id,
-      { content, sender: author },
+      { content, author: author },
       { new: true }
     );
     if (!updatedComment) {

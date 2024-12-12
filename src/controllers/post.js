@@ -2,19 +2,19 @@ const Posts = require("../models/post.js");
 const mongoose = require('mongoose');
 
 const createPost = async (req, res) => {
-  const { title, content, sender } = req.body;
+  const { title, content, author } = req.body;
 
-  if (!title || !content || !sender) {
+  if (!title || !content || !author) {
     return res
       .status(400)
-      .json({ message: "Title, content and sender are required" });
+      .json({ message: "Title, content and author are required" });
   }
 
   try {
     const post = await Posts.create({
       title,
       content,
-      sender,
+      author,
     });
     res.status(201).json(post);
   } catch (error) {
@@ -42,8 +42,8 @@ const getPostById = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    if (req.query.sender) {
-      posts = await Posts.find({ sender: req.query.sender });
+    if (req.query.author) {
+      posts = await Posts.find({ author: req.query.author });
     } else {
       posts = await Posts.find();
     }
@@ -55,22 +55,22 @@ const getPosts = async (req, res) => {
 
 const updatePost = async (req, res) => {
   const id = req.params.id;
-  const { title, content, sender } = req.body;
+  const { title, content, author } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "Invalid id" });
   }
 
-  if (!title && !content && !sender) {
+  if (!title && !content && !author) {
     return res
       .status(400)
-      .json({ message: "Title, content or sender are required" });
+      .json({ message: "Title, content or author are required" });
   }
 
   try {
     const updatedPost = await Posts.findByIdAndUpdate(
       id,
-      { title, content, sender },
+      { title, content, author },
       { new: true }
     );
     if (!updatedPost) {
