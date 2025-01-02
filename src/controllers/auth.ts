@@ -71,3 +71,29 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Refresh Token
+export const refreshToken = async (req: Request, res: Response) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res.status(403).json({ message: "Access denied" });
+  }
+
+  try {
+    const user = await getUserFromToken(token);
+    if (!user || !user.tokens.includes(token)) {
+      return res.status(403).json({ message: "Invalid request" });
+    }
+
+    const accessToken = generateAccessToken(user._id);
+    const newRefreshToken = generateRefreshToken(user._id);
+
+    user.tokens[user.tokens.indexOf(token)] = newRefreshToken;
+
+    await user.save();
+    res.status(200).json({ accessToken, refreshToken: newRefreshToken });
+  } catch (error) {
+    res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
