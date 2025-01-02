@@ -1,20 +1,47 @@
 {
   "dependencies": {
+    "-": "^0.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "mongoose": "^8.8.2",
-    "npm": "^10.9.1"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.4",
+    "npm": "^10.9.1",
+    "swagger-ui-express": "^5.0.1",
+    "ts-jest": "^29.2.5"
   },
   "name": "assignment-1",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "start": "tsc && node ./dist/app.js",
+    "build": "tsc",
+    "dev": "nodemon ./src/app.ts",
+    "test": "tsc && jest --detectOpenHandles --forceExit",
+    "test_a": "tsc && jest ./src/tests/auth/auth.test.ts --detectOpenHandles --forceExit --coverage",
+    "test_u": "tsc && jest ./src/tests/users/user.test.ts --detectOpenHandles --forceExit --coverage",
+    "test_p": "tsc && jest ./src/tests/posts/post.test.ts --detectOpenHandles --forceExit --coverage",
+    "test_c": "tsc && jest ./src/tests/comments/comment.test.ts --detectOpenHandles --forceExit --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.1",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
+    "@types/winston": "^2.4.4",
+    "jest": "^29.7.0",
+    "node-notifier": "^10.0.1",
+    "supertest": "^7.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
 }
