@@ -21,3 +21,8 @@ export const generateRefreshToken = (userId: any): string => {
     expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
   });
 };
+
+// Verify Access Token
+export const verifyAccessToken = (token: string): string | jwt.JwtPayload => {
+  return jwt.verify(token, JWT_SECRET);
+};
