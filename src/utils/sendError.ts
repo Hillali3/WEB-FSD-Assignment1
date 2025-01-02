@@ -31,3 +31,10 @@ export const verifyAccessToken = (token: string): string | jwt.JwtPayload => {
 export const verifyRefreshToken = (token: string): string | jwt.JwtPayload => {
   return jwt.verify(token, JWT_REFRESH_SECRET);
 };
+
+export const getUserFromToken = async (token: string) => {
+  const decoded = verifyRefreshToken(token);
+  const userId = typeof decoded === "string" ? decoded : decoded.userId;
+  const user = await User.findById(userId);
+  return user;
+};
