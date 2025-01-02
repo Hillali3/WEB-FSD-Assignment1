@@ -39,3 +39,35 @@ export const register = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// User Login
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password as string);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
+
+    if (user.tokens == null) user.tokens = [refreshToken];
+    else user.tokens.push(refreshToken);
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Login successful",
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
