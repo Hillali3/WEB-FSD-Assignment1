@@ -35,3 +35,22 @@ export const getPosts = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error fetching posts", error });
   }
 };
+
+// Get post by id
+export const getPostById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+
+  try {
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post is not found" });
+    }
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching post", error });
+  }
+};
