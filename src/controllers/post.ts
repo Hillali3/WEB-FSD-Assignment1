@@ -25,3 +25,13 @@ export const createPost = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error creating post", error });
   }
 };
+
+// Get all posts
+export const getPosts = async (req: Request, res: Response) => {
+  try {
+    const posts = await Post.find();
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching posts", error });
+  }
+};
