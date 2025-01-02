@@ -101,3 +101,20 @@ export const updateComment = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error updating comment", error });
   }
 };
+
+// Delete a comment
+export const deleteComment = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(commentId);
+
+    if (!deletedComment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    return res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error deleting comment", error });
+  }
+};
