@@ -73,3 +73,31 @@ export const getCommentById = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error fetching comment", error });
   }
 };
+
+// Update a comment
+export const updateComment = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+  const { text } = req.body;
+
+  if (!text) {
+    return res
+      .status(400)
+      .json({ message: "Text is required to update the comment" });
+  }
+
+  try {
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { text },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedComment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    return res.status(200).json(updatedComment);
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating comment", error });
+  }
+};
