@@ -91,3 +91,27 @@ export const getPostByUsername = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error fetching posts", error });
   }
 };
+
+//update post by id
+export const updatePost = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { title, content, sender } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { title, content, sender },
+      { new: true }
+    );
+    if (!updatedPost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating post", error });
+  }
+};
