@@ -60,22 +60,22 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-//   // Get user by username
-//   export const getUserByUsername = async (req: Request, res: Response) => {
-//     const { username } = req.params;
+// Get user by username
+export const getUserByUsername = async (req: Request, res: Response) => {
+  const { username } = req.params;
 
-//     try {
-//       const user = await User.find({ username });
-//       if (user.length === 0) {
-//         return res
-//           .status(404)
-//           .json({ message: "No user found for this username" });
-//       }
-//       return res.status(200).json(user);
-//     } catch (error) {
-//       return res.status(500).json({ message: "Error fetching users", error });
-//     }
-//   };
+  try {
+    const user = await User.find({ username });
+    if (user.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No user found for this username" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching users", error });
+  }
+};
 
 //   //update user by id
 //   export const updateUser = async (req: Request, res: Response) => {
