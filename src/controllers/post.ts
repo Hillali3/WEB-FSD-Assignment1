@@ -54,3 +54,18 @@ export const getPostById = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching post", error });
   }
 };
+
+// Get all posts by by user id
+export const getPostByUserId = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+
+  try {
+    const posts = await Post.find({ userId });
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "No posts found for this user" });
+    }
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching posts", error });
+  }
+};
