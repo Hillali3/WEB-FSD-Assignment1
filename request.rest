@@ -1,46 +1,50 @@
 ###
 //CREATE new Post
 POST http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU3MjE2MTFmMjUyNDEzMzEyNzRhOGEiLCJpYXQiOjE3MzM3NjUxMjksImV4cCI6MTczNDM2OTkyOX0.Iy2_FoLidm2PpOubNkXYbQJw9fAuxqqUfBqu5EmBIYg
 Content-Type: application/json
 
 {
-    "title": "test_post",
+    "title": "test_t",
     "content": "test_content",
-    "author": "test_author"
+    "userId": "675455bdf4d2ffccb876c49a"
 }
+
 ###
 // GET all posts
 GET http://localhost:3000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTViZGY0ZDJmZmNjYjg3NmM0OWEiLCJpYXQiOjE3MzM1ODAyMzQsImV4cCI6MTczMzY2NjYzNH0.-PKWuhe5zOI9xiR-ezUC-Gtcrv9wfxp-MYfCwcF7zMU
 
 ###
 // GET post by id
-GET http://localhost:3000/posts/675b2eb5d9bd5afba419c2df
+GET http://localhost:3000/posts/id/675458f442b1d8695a48b7a0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTViZGY0ZDJmZmNjYjg3NmM0OWEiLCJpYXQiOjE3MzM1ODAyMzQsImV4cCI6MTczMzY2NjYzNH0.-PKWuhe5zOI9xiR-ezUC-Gtcrv9wfxp-MYfCwcF7zMU
 
 ###
 // GET post by sender
-GET http://localhost:3000/posts?sender=test_sender
+GET http://localhost:3000/posts?sender=bla
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTViZGY0ZDJmZmNjYjg3NmM0OWEiLCJpYXQiOjE3MzM1ODAyMzQsImV4cCI6MTczMzY2NjYzNH0.-PKWuhe5zOI9xiR-ezUC-Gtcrv9wfxp-MYfCwcF7zMU
 
 ###
 // UPDATE post by id
-PUT http://localhost:3000/posts/675b2eb5d9bd5afba419c2df
+PUT http://localhost:3000/posts/675458f442b1d8695a48b7a0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTViZGY0ZDJmZmNjYjg3NmM0OWEiLCJpYXQiOjE3MzM1ODAyMzQsImV4cCI6MTczMzY2NjYzNH0.-PKWuhe5zOI9xiR-ezUC-Gtcrv9wfxp-MYfCwcF7zMU
 Content-Type: application/json
 
 {
-    "title": "test_new_title"
+    "title": "test_title3"
 }
-
-###
-// DELETE post by id
-DELETE http://localhost:3000/posts/675b2eb5d9bd5afba419c2df
 
 ###
 //CREATE new comment
 POST http://localhost:3000/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU1ZjE1NDMyMjZhOWZiNTIyZjYxNzIiLCJpYXQiOjE3MzM2ODU1ODgsImV4cCI6MTczMzc3MTk4OH0.01de45C7Syx5OBBJgrA-JpJKle3CaopZlIFa8f3xeOc
 Content-Type: application/json
 
 {
-    "author": "hila",
-    "content": "test_content"
+    "userId": "6755f103b49f3cb958269daa",
+    "postId": "6755f103b49f3cb958269dac",
+    "text": "bla"
 }
 
 ###
@@ -49,18 +53,91 @@ GET http://localhost:3000/comments/
 
 ###
 // GET comment by id
-GET http://localhost:3000/comments/675b2f8d58b154a380af941f
+GET http://localhost:3000/comments/6751ccd6764d3be8c8593a03
 
 ###
 // UPDATE comment by id
-PUT http://localhost:3000/comments/675b2f8d58b154a380af941f
+PUT http://localhost:3000/comments/6751ccd6764d3be8c8593a03
 Content-Type: application/json
 
 {
-    "content": "test_new_content",
+    "content": "test_title3",
     "author": "idan"
 }
 
 ###
-//DELETE comment by id
-DELETE http://localhost:3000/comments/675b2f8d58b154a380af941f
+// DELETE comment by id
+DELETE  http://localhost:3000/comments/6751ccd6764d3be8c8593a03
+Content-Type: application/json
+
+###
+//CREATE new User
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "hila.ohana",
+    "name": "hila",
+    "email": "bla",
+    "password": "password"
+}
+
+###
+// GET all users
+GET http://localhost:3000/users/
+
+// GET user by id
+GET http://localhost:3000/users/id/6753073ddf45a0a620ea75eb
+
+###
+// GET user by username
+GET http://localhost:3000/users/username/aviv.ohana
+
+###
+// UPDATE comment by id
+PUT http://localhost:3000/users/6753074fdf45a0a620ea75f1
+Content-Type: application/json
+
+{
+    "username": "new.ohana",
+    "name": "aviv",
+    "email": "bla2",
+    "password": "password"
+}
+
+###
+// DELETE comment by id
+DELETE  http://localhost:3000/users/67530ab3560b58a4bee1b3fd
+Content-Type: application/json
+
+###
+//login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "hila.ohana@gmail.com",
+    "password": "qwe1234"
+}
+
+###
+// register
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "blja",
+    "password": "pass",
+    "name": "hila",
+    "username": "hila.ohana"
+}
+
+###
+// logout
+POST http://localhost:3000/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTBiMGFhMTczNzJiYWNiZDMzZDYiLCJpYXQiOjE3MzM1Nzg5NDUsImV4cCI6MTczNDE4Mzc0NX0.8Qb5whxk3iXpsSkBxjFTkOdyQeMxcvYUzRGFTDVk684
+
+###
+// Refresh token
+POST http://localhost:3000/auth/refreshToken
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU0NTBiMGFhMTczNzJiYWNiZDMzZDYiLCJpYXQiOjE3MzM1Nzg5MjgsImV4cCI6MTczNDE4MzcyOH0.WWaPJIDeIMSUnUeIyDGjZPYxMFZhs3SA4Sni4mnaM1I
