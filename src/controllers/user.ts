@@ -77,29 +77,29 @@ export const getUserByUsername = async (req: Request, res: Response) => {
   }
 };
 
-//   //update user by id
-//   export const updateUser = async (req: Request, res: Response) => {
-//     const id = req.params.id;
-//     const { name, password, email, birthDate, username } = req.body;
+//update user by id
+export const updateUser = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { name, password, email, birthDate, username } = req.body;
 
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//       return res.status(400).json({ error: "Invalid id" });
-//     }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
 
-//     try {
-//       const updatedUser = await User.findByIdAndUpdate(
-//         id,
-//         { name, password, email, birthDate, username },
-//         { new: true }
-//       );
-//       if (!updatedUser) {
-//         return res.status(404).json({ message: "User not found" });
-//       }
-//       res.status(200).json(updatedUser);
-//     } catch (error) {
-//       res.status(500).json({ message: "Error updating user", error });
-//     }
-//   };
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, password, email, birthDate, username },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user", error });
+  }
+};
 
 //   // Delete user by id
 //   export const deleteUser = async (req: Request, res: Response) => {
