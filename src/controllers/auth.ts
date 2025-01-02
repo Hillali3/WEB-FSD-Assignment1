@@ -97,3 +97,26 @@ export const refreshToken = async (req: Request, res: Response) => {
     res.status(403).json({ message: "Invalid or expired token" });
   }
 };
+
+//logout
+export const logout = async (req: Request, res: Response) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res.status(403).json({ message: "Access denied" });
+  }
+
+  const user = await getUserFromToken(token);
+
+  if (!user || !user.tokens.includes(token)) {
+    if (user) {
+      user.tokens = [""];
+      await user.save();
+    }
+    return res.status(403).json({ message: "Invalid request" });
+  }
+
+  user.tokens.splice(user.tokens.indexOf(token), 1); // remove token from tokens array
+  await user.save();
+  res.status(200).json({ message: "Logged out successfully" });
+};
