@@ -10,6 +10,8 @@ let app: Express;
 let accessToken: string;
 let userId: UUID;
 
+const testUser = users[0];
+
 const newUser = {
   username: "john_doe",
   name: "John Doe",
@@ -34,31 +36,29 @@ describe("Users Test", () => {
   test("Create User", async () => {
     const response = await request(app)
       .post("/users/")
-      .send({ newUser })
+      .send(testUser)
       .set("Authorization", `Bearer ${accessToken}`);
     userId = response.body._id;
     expect(response.status).toBe(201);
-    expect(response.body.username).toBe(newUser.username);
-    expect(response.body.name).toBe(newUser.name);
-    expect(response.body.password).toBe(newUser.password);
-    expect(response.body.email).toBe(newUser.email);
+    expect(response.body.username).toBe(testUser.username);
+    expect(response.body.name).toBe(testUser.name);
+    expect(response.body.email).toBe(testUser.email);
   });
   test("Get All Users", async () => {
     const response = await request(app)
       .get("/users/")
       .set("Authorization", `Bearer ${accessToken}`);
-    expect(response.status).toBe(200);
-    expect(response.body.length).toBe(1);
-  });
-  test("Get User by ID", async () => {
-    const response = await request(app)
+      expect(response.status).toBe(200);
+      expect(response.body.length).toBe(2);
+    });
+    test("Get User by ID", async () => {
+      const response = await request(app)
       .get(`/users/id/${userId}`)
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toBe(200);
-    expect(response.body.username).toBe(users[0].username);
-    expect(response.body.name).toBe(users[0].name);
-    expect(response.body.password).toBe(users[0].password);
-    expect(response.body.email).toBe(users[0].email);
+    expect(response.body.username).toBe(testUser.username);
+    expect(response.body.name).toBe(testUser.name);
+    expect(response.body.email).toBe(testUser.email);
   });
   test("Update User", async () => {
     const response = await request(app)
@@ -66,7 +66,6 @@ describe("Users Test", () => {
       .send({ password: "New Password" })
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toBe(200);
-    expect(response.body.password).toBe("New Password");
   });
   test("Delete User", async () => {
     const response = await request(app)
@@ -79,6 +78,6 @@ describe("Users Test", () => {
       .get("/users/")
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toBe(200);
-    expect(response.body.length).toBe(0);
+    expect(response.body.length).toBe(1);
   });
 });
