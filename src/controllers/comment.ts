@@ -56,3 +56,20 @@ export const getCommentsByPost = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error fetching comments", error });
   }
 };
+
+// Get a specific comment by id
+export const getCommentById = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    return res.status(200).json(comment);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching comment", error });
+  }
+};
