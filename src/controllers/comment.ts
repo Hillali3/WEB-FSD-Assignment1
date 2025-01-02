@@ -1,95 +1,39 @@
-const Comment = require('../models/comment');
-const mongoose = require("mongoose");
+import { Request, Response } from "express";
+import Comment from "../models/comment";
+import Post from "../models/post";
+import User from "../models/user";
 
-// GET all comments
-const getComments = async (req, res) => {
-  try {
-    const comments = await Comment.find();
-    res.status(200).json(comments);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching comments', error });
+// Create a new comment
+export const createComment = async (req: Request, res: Response) => {
+  const { postId, userId, text } = req.body;
+  if (!postId || !userId || !text) {
+    return res
+      .status(400)
+      .json({ message: "PostId, UserId, and text are required" });
   }
-};
 
-// GET comment by ID
-const getCommentById = async (req, res) => {
-    const { id } = req.params;
-  
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id" });
-    }
-    
-    try {
-      const comment = await Comment.findById(id);
-      if (!comment) {
-        return res.status(404).json({ message: 'Comment not found' });
-      }
-      res.status(200).json(comment);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching comment', error });
-    }
-};
-
-// CREATE a new comment
-const createComment = async (req, res) => {
-  const { content, author } = req.body;
-  
   try {
+    const post = await Post.findById(postId);
+    const user = await User.findById(userId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const newComment = new Comment({
-      content,
-      author,
+      postId,
+      userId,
+      text,
     });
-  
+
     await newComment.save();
-    res.status(201).json(newComment);
+
+    return res.status(201).json(newComment);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating comment', error });
+    return res.status(500).json({ message: "Error creating comment", error });
   }
 };
-
-// UPDATE a comment by ID
-const updateComment = async (req, res) => {
-  const { id } = req.params;
-  const { content, author } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid id" });
-  }
-  
-  try {
-    const updatedComment = await Comment.findByIdAndUpdate(
-      id,
-      { content, author: author },
-      { new: true }
-    );
-    if (!updatedComment) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-    res.status(200).json(updatedComment);
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating comment', error });
-  }
-};
-
-// DELETE comment by ID
-const deleteComment = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deletedComment = await Comment.findByIdAndDelete(id);
-    if (!deletedComment) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-    res.status(200).json({ message: 'Comment deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting comment', error });
-  }
-};
-
-module.exports = { 
-  getComments,
-  getCommentById,
-  createComment,
-  updateComment,
-  deleteComment
-}; 
