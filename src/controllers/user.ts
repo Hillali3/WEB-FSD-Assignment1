@@ -41,24 +41,24 @@ export const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-//   // Get user by id
-//   export const getUserById = async (req: Request, res: Response) => {
-//     const { id } = req.params;
+// Get user by id
+export const getUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//       return res.status(400).json({ error: "Invalid id" });
-//     }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
 
-//     try {
-//       const user = await User.findById(id);
-//       if (!user) {
-//         return res.status(404).json({ message: "User is not found" });
-//       }
-//       res.status(200).json(user);
-//     } catch (error) {
-//       res.status(500).json({ message: "Error fetching user", error });
-//     }
-//   };
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User is not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user", error });
+  }
+};
 
 //   // Get user by username
 //   export const getUserByUsername = async (req: Request, res: Response) => {
